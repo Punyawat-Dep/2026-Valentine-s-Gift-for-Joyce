@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 happy valentine's day joyce!! 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Floating hearts background */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 15s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+            font-weight: 700;
+            text-transform: lowercase;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 300;
+            text-transform: lowercase;
+        }
+
+        /* Navigation Menu */
+        nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: white;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: 'Poppins', sans-serif;
+            text-transform: lowercase;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Main Content Area */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: lowercase;
+        }
+
+        /* Love Letter Generator */
+        .letter-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .letter-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 14px;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            text-transform: lowercase;
+        }
+
+        .letter-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .letter-output {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            line-height: 1.9;
+            min-height: 200px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+            font-weight: 400;
+        }
+
+        /* Memory Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        .memory-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .memory-icon {
+            font-size: 3.5em;
+            margin-bottom: 12px;
+        }
+
+        .memory-card h3 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            text-transform: lowercase;
+        }
+
+        .memory-card p {
+            font-weight: 300;
+            font-size: 0.9em;
+            text-transform: lowercase;
+        }
+
+        /* Love Calculator */
+        .calculator-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.15em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Poppins', sans-serif;
+            text-transform: lowercase;
+        }
+
+        .calculate-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            font-size: 1.4em;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Playlist */
+        .playlist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .song {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 18px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .song:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(10px);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .song-icon {
+            font-size: 2em;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .song-artist {
+            opacity: 0.85;
+            font-size: 0.9em;
+            font-weight: 300;
+        }
+
+        /* Countdown */
+        .countdown-display {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .time-unit {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            min-width: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .time-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 300;
+            text-transform: lowercase;
+        }
+
+        /* Quiz */
+        .quiz-question {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-question h3 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .quiz-option.correct {
+            background: rgba(76, 175, 80, 0.5);
+            border-color: #4CAF50;
+        }
+
+        .quiz-option.wrong {
+            background: rgba(244, 67, 54, 0.5);
+            border-color: #F44336;
+        }
+
+        /* Message Board */
+        .message-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.05em;
+            background: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            border-radius: 15px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .message-time {
+            font-size: 0.75em;
+            opacity: 0.7;
+            margin-top: 8px;
+            font-weight: 300;
+        }
+
+        /* Welcome Section */
+        .welcome {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .welcome h2 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+        }
+
+        .welcome p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-weight: 300;
+            text-transform: lowercase;
+        }
+
+        .big-heart {
+            font-size: 7em;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+        }
+
+        /* Gen Z vibes */
+        .slang {
+            font-weight: 600;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        p {
+            text-transform: lowercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .menu-btn {
+                padding: 10px 18px;
+                font-size: 0.85em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>💖 happy valentine's day joyce!! 💖</h1>
+        <p class="subtitle">made this whole site just for you bestie 🥺✨</p>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <button class="menu-btn" onclick="showSection('welcome')">🏠 home</button>
+        <button class="menu-btn" onclick="showSection('letter')">💌 love notes</button>
+        <button class="menu-btn" onclick="showSection('memories')">📸 our moments</button>
+        <button class="menu-btn" onclick="showSection('calculator')">💕 vibe check</button>
+        <button class="menu-btn" onclick="showSection('playlist')">🎵 our playlist</button>
+        <button class="menu-btn" onclick="showSection('countdown')">⏰ countdown</button>
+        <button class="menu-btn" onclick="showSection('quiz')">🎯 couple quiz</button>
+        <button class="menu-btn" onclick="showSection('messages')">📝 message wall</button>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Welcome Section -->
+        <div id="welcome" class="section active welcome">
+            <div class="big-heart">❤️</div>
+            <h2>hey joyce!! 👋✨</h2>
+            <p>okay so i made this whole website for you bc you're literally <span class="slang">the best thing ever</span> 🥰</p>
+            <p>no cap, you make every single day better just by existing fr fr 💯</p>
+            <p>explore all the sections above - each one is packed with love and good vibes!! 💖</p>
+            <p>ilyyyy so much joyce!! 🫶</p>
+        </div>
+
+        <!-- Love Letter Generator -->
+        <div id="letter" class="section">
+            <h2>💌 love notes for joyce</h2>
+            <p style="text-align: center; margin-bottom: 20px;">click a vibe to get your personalized note!! ✨</p>
+            <div class="letter-options">
+                <button class="letter-btn" onclick="generateLetter('romantic')">🌹 romantic asf</button>
+                <button class="letter-btn" onclick="generateLetter('sweet')">🍭 super sweet</button>
+                <button class="letter-btn" onclick="generateLetter('funny')">😂 funny mode</button>
+                <button class="letter-btn" onclick="generateLetter('poetic')">📜 poetic vibes</button>
+            </div>
+            <div class="letter-output" id="letterOutput">
+                your personalized love note will appear here joyce... ✨
+            </div>
+        </div>
+
+        <!-- Memory Gallery -->
+        <div id="memories" class="section">
+            <h2>📸 us >> everyone else</h2>
+            <p style="text-align: center; margin-bottom: 30px;">click on each memory to see why it's iconic!! 💅</p>
+            <div class="gallery">
+                <div class="memory-card" onclick="showMemory('first-date')">
+                    <div class="memory-icon">💑</div>
+                    <h3>when we first met</h3>
+                    <p>literally changed my life</p>
+                </div>
+                <div class="memory-card" onclick="showMemory('first-kiss')">
+                    <div class="memory-icon">💋</div>
+                    <h3>that first kiss tho</h3>
+                    <p>butterflies fr</p>
+                </div>
+                <div class="memory-card" onclick="showMemory('adventure')">
+                    <div class="memory-icon">🎢</div>
+                    <h3>our adventures</h3>
+                    <p>main character energy</p>
+                </div>
+                <div class="memory-card" onclick="showMemory('cozy')">
+                    <div class="memory-icon">🏠</div>
+                    <h3>cozy szn</h3>
+                    <p>just us vibing</p>
+                </div>
+                <div class="memory-card" onclick="showMemory('travel')">
+                    <div class="memory-icon">✈️</div>
+                    <h3>places we'll go</h3>
+                    <p>bucket list goals</p>
+                </div>
+                <div class="memory-card" onclick="showMemory('everyday')">
+                    <div class="memory-icon">☕</div>
+                    <h3>everyday w/ you</h3>
+                    <p>the little things >>></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Calculator -->
+        <div id="calculator" class="section">
+            <h2>💕 relationship vibe check</h2>
+            <p style="text-align: center; margin-bottom: 20px;">let's see our compatibility fr!! (spoiler: we're perfect) 😌</p>
+            <input type="text" class="calculator-input" id="name1" placeholder="your name">
+            <input type="text" class="calculator-input" id="name2" placeholder="joyce (your amazing gf)">
+            <button class="calculate-btn" onclick="calculateLove()">check the vibes!! 💖</button>
+            <div class="result" id="loveResult"></div>
+        </div>
+
+        <!-- Romantic Playlist -->
+        <div id="playlist" class="section">
+            <h2>🎵 songs that hit different w/ you</h2>
+            <p style="text-align: center; margin-bottom: 30px;">these all remind me of you joyce ❤️</p>
+            <div class="playlist">
+                <div class="song" onclick="playSong(this)">
+                    <div class="song-icon">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">Perfect</div>
+                        <div class="song-artist">Ed Sheeran</div>
+                    </div>
+                </div>
+                <div class="song" onclick="playSong(this)">
+                    <div class="song-icon">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">All of Me</div>
+                        <div class="song-artist">John Legend</div>
+                    </div>
+                </div>
+                <div class="song" onclick="playSong(this)">
+                    <div class="song-icon">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">Die For You</div>
+                        <div class="song-artist">The Weeknd</div>
+                    </div>
+                </div>
+                <div class="song" onclick="playSong(this)">
+                    <div class="song-icon">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">Lovers Rock</div>
+                        <div class="song-artist">TV Girl</div>
+                    </div>
+                </div>
+                <div class="song" onclick="playSong(this)">
+                    <div class="song-icon">🎵</div>
+                    <div class="song-info">
+                        <div class="song-title">Electric Love</div>
+                        <div class="song-artist">BØRNS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Countdown -->
+        <div id="countdown" class="section">
+            <h2>⏰ counting down to next vday</h2>
+            <p style="text-align: center; margin-bottom: 30px;">but every day with you feels like valentine's ngl 💗</p>
+            <div class="countdown-display">
+                <div class="time-unit">
+                    <span class="time-number" id="days">0</span>
+                    <span class="time-label">days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="hours">0</span>
+                    <span class="time-label">hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="minutes">0</span>
+                    <span class="time-label">mins</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="seconds">0</span>
+                    <span class="time-label">secs</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Quiz -->
+        <div id="quiz" class="section">
+            <h2>🎯 how well do you know us??</h2>
+            <p style="text-align: center; margin-bottom: 30px;">time to test your knowledge about us!! 💪</p>
+            <div id="quizContainer"></div>
+            <div class="result" id="quizScore" style="display: none;"></div>
+        </div>
+
+        <!-- Message Board -->
+        <div id="messages" class="section">
+            <h2>📝 our message wall</h2>
+            <p style="text-align: center; margin-bottom: 20px;">leave cute messages for each other!! 💌</p>
+            <textarea class="message-input" id="messageInput" placeholder="write something sweet for joyce..."></textarea>
+            <button class="calculate-btn" onclick="addMessage()">send it!! 💌</button>
+            <div class="messages-list" id="messagesList"></div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createFloatingHearts() {
+            const heartBg = document.getElementById('heartBg');
+            const hearts = ['❤️', '💕', '💖', '💗', '💘', '💝', '✨', '🌟'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartBg.appendChild(heart);
+            }
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Love Letter Generator
+        const letters = {
+            romantic: [
+                "joyce,\n\nno cap, every single moment with you feels like a dream fr. your smile literally makes my whole day better, and your laugh is the best sound ever. i fall for you more every single day and i can't wait to show you how much you mean to me for like... forever.\n\nyou're my everything joyce 💗\nlove you so much ❤️",
+                "to my gorgeous gf joyce,\n\nin a world full of temporary things, you're my forever. your love has literally changed my entire life in ways i never thought possible. every heartbeat is for you, every breath reminds me how lucky i am.\n\nthank you for being mine joyce.\nall my love, always 💕"
+            ],
+            sweet: [
+                "hey joyce!! 🍭\n\njust wanted to remind you that you're literally the sweetest person ever!! you make every single day so much better and every moment with you is special. your kindness, the way you care about everything, and that gorgeous smile - they all make me the luckiest person alive fr fr!\n\nyou're my favorite everything!!\nwith all my heart 💖",
+                "joyce babe,\n\nyou're sweeter than literally any candy, prettier than any flower, and more precious than anything in this whole world. being with you is like valentine's day every single day bc you fill my life with so much happiness and love!!\n\nstay perfect joyce! 🍬💕"
+            ],
+            funny: [
+                "dear joyce (my favorite weirdo),\n\ni love you even tho you steal my food, take all the blankets, and have the worst (best) sense of humor. you're my favorite kind of chaotic and i literally wouldn't change anything about you. thanks for being my partner in crime and the person i can be completely myself with.\n\nlove, your equally weird bf/gf 😂❤️",
+                "to joyce,\n\ni love you more than wifi (and that's saying something ngl). you're the reason i'm always on my phone smiling like an idiot and checking notifications every 2 seconds. thanks for dealing with my bs and loving me anyway joyce!!\n\nyours forever (sry not sry) 😅💕"
+            ],
+            poetic: [
+                "joyce,\n\nyou are the poetry my heart always wanted to write,\nthe melody that makes everything feel right.\nlike stars that light up the darkest sky,\nyour love lifts me up and helps me fly.\n\nin your eyes i see my forever home,\nwith you joyce, i'll never be alone.\n\neternally yours 🌹",
+                "my love joyce,\n\nyou are the sunrise after the darkest night,\nthe gentle moonbeam in the softest light.\nyour love flows through me like an endless sea,\nyou're the dream i cherish, where i want to be.\n\nin this crazy life, you're my perfect rhyme,\nmy love for you transcends all space and time.\n\nforever joyce 💫"
+            ]
+        };
+
+        function generateLetter(theme) {
+            const letterArray = letters[theme];
+            const randomLetter = letterArray[Math.floor(Math.random() * letterArray.length)];
+            document.getElementById('letterOutput').textContent = randomLetter;
+        }
+
+        // Memory Gallery
+        function showMemory(type) {
+            const memories = {
+                'first-date': 'joyce!! our first date was literally so perfect. from the moment i saw you i knew this was gonna be something special. every laugh, every conversation - it was all just *chef\'s kiss* ❤️',
+                'first-kiss': 'okay but that first kiss tho joyce... time literally stopped. it was everything i dreamed about and MORE. i knew right then that i never wanted to kiss anyone else ever again fr 💋',
+                'adventure': 'all our adventures together joyce - from random road trips to trying new stuff - they\'re all core memories fr. you make literally everything an adventure and i\'m here for it!! 🎢',
+                'cozy': 'those chill nights together joyce, just vibing and being close - they hit different. no fancy dates needed, just you and me. absolutely perfect ngl 🏠',
+                'travel': 'all the places we\'ve been and all the places we\'re gonna go together joyce. every trip with you is a whole vibe. can\'t wait for our next adventure!! ✈️',
+                'everyday': 'it\'s the little everyday moments i treasure most joyce - morning coffee together, your sleepy smile, random texts during the day. these small moments make our huge love fr ☕'
+            };
+            alert(memories[type]);
+        }
+
+        // Love Calculator
+        function calculateLove() {
+            const name1 = document.getElementById('name1').value.trim();
+            const name2 = document.getElementById('name2').value.trim();
+            
+            if (!name1 || !name2) {
+                document.getElementById('loveResult').innerHTML = '💔 yo put both names in first!!';
+                return;
+            }
+
+            // Fun algorithm (always gives high percentages!)
+            const combined = (name1 + name2).toLowerCase();
+            let score = 0;
+            for (let i = 0; i < combined.length; i++) {
+                score += combined.charCodeAt(i);
+            }
+            
+            // Ensure score is between 90-100 
+            const lovePercentage = 90 + (score % 11);
+            
+            const messages = [
+                "💕 absolutely perfect match!! you two are literally meant to be fr fr!!",
+                "❤️ soulmate energy!! the universe said you belong together!!",
+                "💖 omg perfect together!! literally couple goals!!",
+                "💗 the chemistry is immaculate!! love is in the air fr!!",
+                "💝 destined to be together forever!! no cap!!"
+            ];
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('loveResult').innerHTML = `
+                <div style="font-size: 3em;">${lovePercentage}% ❤️</div>
+                <div style="margin-top: 10px;">${message}</div>
+            `;
+        }
+
+        // Playlist
+        function playSong(element) {
+            const title = element.querySelector('.song-title').textContent;
+            const artist = element.querySelector('.song-artist').textContent;
+            alert(`🎵 now playing: "${title}" by ${artist}\n\nthis song always makes me think of you joyce!! 💕`);
+        }
+
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            let valentine = new Date(now.getFullYear(), 1, 14);
+            
+            if (now > valentine) {
+                valentine = new Date(now.getFullYear() + 1, 1, 14);
+            }
+            
+            const diff = valentine - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Quiz
+        const quizQuestions = [
+            {
+                question: "what makes joyce the best gf ever??",
+                options: [
+                    "literally everything - she's perfect!! ❤️",
+                    "the way she makes me laugh",
+                    "how caring and sweet she is",
+                    "all of the above fr!!"
+                ],
+                correct: 3
+            },
+            {
+                question: "what's the vibe of our relationship??",
+                options: [
+                    "we're literally best friends AND lovers",
+                    "we can be our true selves together",
+                    "we make each other better people",
+                    "all of these things no cap!!"
+                ],
+                correct: 3
+            },
+            {
+                question: "how much do i love joyce??",
+                options: [
+                    "to the moon and back fr",
+                    "more than words can ever say",
+                    "with literally my whole heart",
+                    "infinity times infinity!!"
+                ],
+                correct: 3
+            }
+        ];
+
+        let currentQuestion = 0;
+        let quizScoreValue = 0;
+
+        function loadQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'quiz-question';
+                questionDiv.innerHTML = `
+                    <h3>question ${index + 1}: ${q.question}</h3>
+                    <div class="quiz-options">
+                        ${q.options.map((option, i) => `
+                            <div class="quiz-option" onclick="selectAnswer(${index}, ${i}, this)">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectAnswer(questionIndex, answerIndex, element) {
+            const question = quizQuestions[questionIndex];
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (answerIndex === question.correct) {
+                element.classList.add('correct');
+                quizScoreValue++;
+            } else {
+                element.classList.add('wrong');
+                options[question.correct].classList.add('correct');
+            }
+            
+            setTimeout(() => {
+                const allAnswered = document.querySelectorAll('.quiz-option.correct, .quiz-option.wrong').length >= quizQuestions.length;
+                if (allAnswered) {
+                    showQuizScore();
+                }
+            }, 500);
+        }
+
+        function showQuizScore() {
+            const scoreDiv = document.getElementById('quizScore');
+            const percentage = (quizScoreValue / quizQuestions.length) * 100;
+            scoreDiv.style.display = 'block';
+            scoreDiv.innerHTML = `
+                <div style="font-size: 2em;">your score: ${quizScoreValue}/${quizQuestions.length}</div>
+                <div style="margin-top: 10px;">${percentage === 100 ? '🎉 absolutely slayed!! you know us so well!!' : '❤️ good job joyce!! our love is obvious fr fr!!'}</div>
+            `;
+        }
+
+        // Message Board
+        let messages = [];
+
+        function addMessage() {
+            const input = document.getElementById('messageInput');
+            const messageText = input.value.trim();
+            
+            if (!messageText) {
+                alert('write something first joyce!! 💌');
+                return;
+            }
+            
+            const now = new Date();
+            const message = {
+                text: messageText,
+                time: now.toLocaleString()
+            };
+            
+            messages.unshift(message);
+            input.value = '';
+            
+            displayMessages();
+        }
+
+        function displayMessages() {
+            const container = document.getElementById('messagesList');
+            container.innerHTML = messages.map(msg => `
+                <div class="message-item">
+                    <div>${msg.text}</div>
+                    <div class="message-time">${msg.time}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        window.onload = function() {
+            createFloatingHearts();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+            loadQuiz();
+            
+            messages = [
+                { text: "joyce!! i love you so much it's actually insane 🥺❤️", time: new Date().toLocaleString() },
+                { text: "thank you for being literally the best thing ever!! 💕", time: new Date().toLocaleString() }
+            ];
+            displayMessages();
+        };
+    </script>
+</body>
+</html>
