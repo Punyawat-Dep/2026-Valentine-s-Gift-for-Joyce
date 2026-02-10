@@ -204,6 +204,34 @@
             font-weight: 400;
         }
 
+        /* Photo Gallery */
+        .photo-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .our-photo {
+            max-width: 100%;
+            width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .our-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-caption {
+            font-size: 1.2em;
+            margin-top: 15px;
+            font-weight: 300;
+            text-transform: lowercase;
+        }
+
         /* Memory Gallery */
         .gallery {
             display: grid;
@@ -406,6 +434,49 @@
             border-color: #F44336;
         }
 
+        /* Wishlist - NEW */
+        .wishlist-container {
+            margin-top: 20px;
+        }
+
+        .wishlist-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        .wishlist-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .wishlist-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .wishlist-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
         /* Message Board */
         .message-input {
             width: 100%;
@@ -514,6 +585,10 @@
             h2 {
                 font-size: 1.8em;
             }
+
+            .our-photo {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -530,8 +605,10 @@
     <!-- Navigation Menu -->
     <nav>
         <button class="menu-btn" onclick="showSection('welcome')">🏠 home</button>
+        <button class="menu-btn" onclick="showSection('photo')">📷 our pic</button>
         <button class="menu-btn" onclick="showSection('letter')">💌 love notes</button>
         <button class="menu-btn" onclick="showSection('memories')">📸 our moments</button>
+        <button class="menu-btn" onclick="showSection('wishlist')">✨ bucket list</button>
         <button class="menu-btn" onclick="showSection('calculator')">💕 vibe check</button>
         <button class="menu-btn" onclick="showSection('playlist')">🎵 our playlist</button>
         <button class="menu-btn" onclick="showSection('countdown')">⏰ countdown</button>
@@ -549,6 +626,16 @@
             <p>no cap, you make every single day better just by existing fr fr 💯</p>
             <p>explore all the sections above - each one is packed with love and good vibes!! 💖</p>
             <p>ilyyyy so much joyce!! 🫶</p>
+        </div>
+
+        <!-- Our Photo Section - NEW -->
+        <div id="photo" class="section">
+            <h2>📷 us!! look how cute we are 🥺</h2>
+            <div class="photo-container">
+                <img src="Our Pic.jpg" alt="us being adorable together" class="our-photo">
+                <p class="photo-caption">literally the best thing that ever happened to me joyce 💕✨</p>
+                <p class="photo-caption">this pic lives rent free in my head fr fr 🥰</p>
+            </div>
         </div>
 
         <!-- Love Letter Generator -->
@@ -602,6 +689,15 @@
                     <p>the little things >>></p>
                 </div>
             </div>
+        </div>
+
+        <!-- Bucket List / Wishlist - NEW with IndexedDB -->
+        <div id="wishlist" class="section">
+            <h2>✨ our bucket list together</h2>
+            <p style="text-align: center; margin-bottom: 20px;">things we wanna do together!! add anything joyce 💕</p>
+            <input type="text" class="calculator-input" id="wishlistInput" placeholder="add a dream or goal for us...">
+            <button class="calculate-btn" onclick="addWishlistItem()">add to our list!! ✨</button>
+            <div class="wishlist-container" id="wishlistContainer"></div>
         </div>
 
         <!-- Love Calculator -->
@@ -700,6 +796,177 @@
     </div>
 
     <script>
+        // IndexedDB Setup
+        let db;
+        const DB_NAME = 'JoyceValentineDB';
+        const DB_VERSION = 1;
+
+        function initDB() {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+            request.onerror = () => {
+                console.error('Database failed to open');
+            };
+
+            request.onsuccess = () => {
+                db = request.result;
+                loadWishlistItems();
+                loadMessages();
+            };
+
+            request.onupgradeneeded = (e) => {
+                db = e.target.result;
+
+                // Create wishlist store
+                if (!db.objectStoreNames.contains('wishlist')) {
+                    const wishlistStore = db.createObjectStore('wishlist', { keyPath: 'id', autoIncrement: true });
+                    wishlistStore.createIndex('text', 'text', { unique: false });
+                    wishlistStore.createIndex('completed', 'completed', { unique: false });
+                }
+
+                // Create messages store
+                if (!db.objectStoreNames.contains('messages')) {
+                    const messagesStore = db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+                    messagesStore.createIndex('text', 'text', { unique: false });
+                    messagesStore.createIndex('time', 'time', { unique: false });
+                }
+            };
+        }
+
+        // Wishlist Functions
+        function addWishlistItem() {
+            const input = document.getElementById('wishlistInput');
+            const text = input.value.trim();
+
+            if (!text) {
+                alert('write something first joyce!! ✨');
+                return;
+            }
+
+            const transaction = db.transaction(['wishlist'], 'readwrite');
+            const objectStore = transaction.objectStore('wishlist');
+
+            const item = {
+                text: text,
+                completed: false,
+                date: new Date().toISOString()
+            };
+
+            const request = objectStore.add(item);
+
+            request.onsuccess = () => {
+                input.value = '';
+                loadWishlistItems();
+            };
+        }
+
+        function loadWishlistItems() {
+            const container = document.getElementById('wishlistContainer');
+            container.innerHTML = '';
+
+            const transaction = db.transaction(['wishlist'], 'readonly');
+            const objectStore = transaction.objectStore('wishlist');
+            const request = objectStore.getAll();
+
+            request.onsuccess = () => {
+                const items = request.result;
+                if (items.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; opacity: 0.7;">no items yet! add some dreams joyce 💭</p>';
+                    return;
+                }
+
+                items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'wishlist-item' + (item.completed ? ' completed' : '');
+                    div.innerHTML = `
+                        <span>${item.text}</span>
+                        <div class="wishlist-actions">
+                            <button class="wishlist-btn" onclick="toggleWishlistItem(${item.id})">${item.completed ? '↩️ undo' : '✔️ done'}</button>
+                            <button class="wishlist-btn" onclick="deleteWishlistItem(${item.id})">🗑️ delete</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            };
+        }
+
+        function toggleWishlistItem(id) {
+            const transaction = db.transaction(['wishlist'], 'readwrite');
+            const objectStore = transaction.objectStore('wishlist');
+            const request = objectStore.get(id);
+
+            request.onsuccess = () => {
+                const item = request.result;
+                item.completed = !item.completed;
+                objectStore.put(item);
+                loadWishlistItems();
+            };
+        }
+
+        function deleteWishlistItem(id) {
+            const transaction = db.transaction(['wishlist'], 'readwrite');
+            const objectStore = transaction.objectStore('wishlist');
+            objectStore.delete(id);
+
+            transaction.oncomplete = () => {
+                loadWishlistItems();
+            };
+        }
+
+        // Message Board with IndexedDB
+        function addMessage() {
+            const input = document.getElementById('messageInput');
+            const messageText = input.value.trim();
+            
+            if (!messageText) {
+                alert('write something first joyce!! 💌');
+                return;
+            }
+            
+            const transaction = db.transaction(['messages'], 'readwrite');
+            const objectStore = transaction.objectStore('messages');
+
+            const message = {
+                text: messageText,
+                time: new Date().toLocaleString()
+            };
+
+            const request = objectStore.add(message);
+
+            request.onsuccess = () => {
+                input.value = '';
+                loadMessages();
+            };
+        }
+
+        function loadMessages() {
+            const container = document.getElementById('messagesList');
+            container.innerHTML = '';
+
+            const transaction = db.transaction(['messages'], 'readonly');
+            const objectStore = transaction.objectStore('messages');
+            const request = objectStore.getAll();
+
+            request.onsuccess = () => {
+                const messages = request.result.reverse(); // Show newest first
+                
+                if (messages.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; opacity: 0.7;">no messages yet! be the first joyce 💌</p>';
+                    return;
+                }
+
+                messages.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = 'message-item';
+                    div.innerHTML = `
+                        <div>${msg.text}</div>
+                        <div class="message-time">${msg.time}</div>
+                    `;
+                    container.appendChild(div);
+                });
+            };
+        }
+
         // Create floating hearts
         function createFloatingHearts() {
             const heartBg = document.getElementById('heartBg');
@@ -772,14 +1039,12 @@
                 return;
             }
 
-            // Fun algorithm (always gives high percentages!)
             const combined = (name1 + name2).toLowerCase();
             let score = 0;
             for (let i = 0; i < combined.length; i++) {
                 score += combined.charCodeAt(i);
             }
             
-            // Ensure score is between 90-100 
             const lovePercentage = 90 + (score % 11);
             
             const messages = [
@@ -916,52 +1181,13 @@
             `;
         }
 
-        // Message Board
-        let messages = [];
-
-        function addMessage() {
-            const input = document.getElementById('messageInput');
-            const messageText = input.value.trim();
-            
-            if (!messageText) {
-                alert('write something first joyce!! 💌');
-                return;
-            }
-            
-            const now = new Date();
-            const message = {
-                text: messageText,
-                time: now.toLocaleString()
-            };
-            
-            messages.unshift(message);
-            input.value = '';
-            
-            displayMessages();
-        }
-
-        function displayMessages() {
-            const container = document.getElementById('messagesList');
-            container.innerHTML = messages.map(msg => `
-                <div class="message-item">
-                    <div>${msg.text}</div>
-                    <div class="message-time">${msg.time}</div>
-                </div>
-            `).join('');
-        }
-
         // Initialize
         window.onload = function() {
             createFloatingHearts();
             updateCountdown();
             setInterval(updateCountdown, 1000);
             loadQuiz();
-            
-            messages = [
-                { text: "joyce!! i love you so much it's actually insane 🥺❤️", time: new Date().toLocaleString() },
-                { text: "thank you for being literally the best thing ever!! 💕", time: new Date().toLocaleString() }
-            ];
-            displayMessages();
+            initDB();
         };
     </script>
 </body>
